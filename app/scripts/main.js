@@ -81,7 +81,9 @@
     [0, 3, 0, 1, 2, 1, 0]
   ];
   var levelIdx = 0;
-  var selectedLevel = levels[levelIdx];
+  var selectedLevel = [];
+
+  setLevel(0);
 
   // setup buttons
   var selectedIdx = -1;
@@ -90,9 +92,26 @@
   console.log('items', items.length);
 
   //  wire up buttons
+  var watchInput = false;
   items.forEach(function(item) {
     item.addEventListener('click', function() {
-      console.log(item.id.split('-')[1]);
+      if (watchInput) {
+        flashItem(item);
+        var clickedItem = parseInt(item.id.split('-')[1], 10);
+        console.log(clickedItem);
+        var expectedItem = selectedLevel[selectedIdx];
+        // check input
+        if (clickedItem === expectedItem) {
+          console.log('CORRECT');
+        } else {
+          console.log('INCORRECT pressed ' + clickedItem + ' expected ' + expectedItem);
+        }
+        selectedIdx++;
+        if (selectedIdx === selectedLevel.length) {
+          watchInput = false;
+          setLevel(levelIdx + 1);
+        }
+      }
     });
   });
   document.getElementById('startGame')
@@ -106,6 +125,19 @@
   //     console.log('click stop');
   //     stop();
   //   });
+
+  function flashItem(item) {
+    addClass(item, 'flash');
+    setTimeout(function() {
+      removeClass(item, 'flash');
+    }, 150);
+  }
+
+  function setLevel(level) {
+    levelIdx = level;
+    selectedLevel = levels[levelIdx];
+    document.getElementById('level').innerHTML = levelIdx;
+  }
 
   // game funcs
   function start() {
@@ -129,6 +161,9 @@
   //   }
   // }
   function addClass(elem, cls) {
+    if (typeof elem === 'string') {
+      elem = document.getElementById(elem);
+    }
     var i;
     var found = false;
     var classes = elem.className.split(' ');
@@ -144,6 +179,9 @@
     }
   }
   function removeClass(elem, remove) {
+    if (typeof elem === 'string') {
+      elem = document.getElementById(elem);
+    }
     var newClassName = '';
     var i;
     var classes = elem.className.split(' ');
@@ -184,6 +222,14 @@
     setItems(currentIdx);
     if (currentIdx > -1) {
       tmr = window.setTimeout(nextItem, 500);
+    } else {
+      startWatching();
     }
+  }
+  function startWatching() {
+    selectedIdx = 0;
+    addClass('instruction-watch', 'hidden');
+    removeClass('instruction-copy', 'hidden');
+    watchInput = true;
   }
 })();

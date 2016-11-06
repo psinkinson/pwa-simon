@@ -51,7 +51,7 @@
     <!-- Your styles -->
     <link rel="stylesheet" href="styles/main.css">
   </head>
-  <body class="mdl-demo mdl-color--grey-700 mdl-color-text--grey-700 mdl-base">
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
@@ -69,11 +69,15 @@
       <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active" id="overview">
           
-          <section>
+          <section class="section--center">
+            Level <span id="level"></span>
+          </section>
+
+          <section class="section--center">
             <div id="instruction-watch">
-              Click the play button then watch the pattern the panels flash
+              Click the play button then watch the pattern of the flashing panels
             </div>
-            <div id="instruction-copy" style="display: none">
+            <div id="instruction-copy" class="hidden">
               Press the panels in the same order you saw them flash
             <div>
           </section>

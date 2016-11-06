@@ -226,8 +226,8 @@ html, body {
   border-radius: 50%;
   clear: both;
   width: 90%;
-    padding-bottom: 90%;
-    margin: 5%;
+  padding-bottom: 90%;
+  margin: 5%;
 }
 .board .board__button{
   width: 44%;
