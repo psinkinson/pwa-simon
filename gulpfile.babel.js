@@ -191,6 +191,12 @@ gulp.task('serve:dist', ['default'], () =>
   })
 );
 
+// deploy to github pages
+gulp.task('deploy', ['default'], () => {
+  return gulp.src('./dist/**/*')
+    .pipe($.ghPages());
+});
+
 // Build production files, the default task
 gulp.task('default', ['clean'], cb =>
   runSequence(
