@@ -162,10 +162,12 @@
   // }
   function addClass(elem, cls) {
     if (typeof elem === 'string') {
+      console.log('addClass elem === string', elem);
       elem = document.getElementById(elem);
     }
     var i;
     var found = false;
+    console.log('addClass elem', elem);
     var classes = elem.className.split(' ');
     console.log(classes);
     for (i = 0; i < classes.length; i++) {
@@ -200,17 +202,25 @@
       window.cancelTimeout(tmr);
     }
   }
-  function setItems(selectdIdx) {
-    items.forEach(function(item, idx) {
-      if (idx === selectdIdx) {
-        addClass(item, 'flash');
-        // item.style.opacity = '1';
-      } else {
-        removeClass(item, 'flash');
-        // item.style.opacity = '0.5';
-      }
+  function clearItems() {
+    items.forEach(function(item) {
+      removeClass(item, 'flash');
     });
   }
+  function setItem(selectedIdx) {
+    addClass(items[selectedIdx], 'flash');
+  }
+  // function setItems(selectdIdx) {
+  //   items.forEach(function(item, idx) {
+  //     if (idx === selectdIdx) {
+  //       addClass(item, 'flash');
+  //       // item.style.opacity = '1';
+  //     } else {
+  //       removeClass(item, 'flash');
+  //       // item.style.opacity = '0.5';
+  //     }
+  //   });
+  // }
   function nextItem() {
     tmr = null;
     var currentIdx = -1;
@@ -219,9 +229,27 @@
       // not finished pattern yet
       currentIdx = selectedLevel[selectedIdx];
     }
-    setItems(currentIdx);
+    // clear current
+    if (selectedIdx > 0) {
+      clearItems();
+    }
+    // set next
+
+    if (selectedIdx > 0 && currentIdx > -1) {
+      // was previous and next
+      // allow a pause before next flash
+      window.setTimeout(function() {
+        postNext(currentIdx);
+      }, 200);
+    } else {
+      // no previous flash so just set next
+      postNext(currentIdx);
+    }
+  }
+  function postNext(currentIdx) {
     if (currentIdx > -1) {
-      tmr = window.setTimeout(nextItem, 500);
+      setItem(currentIdx);
+      tmr = window.setTimeout(nextItem, 800);
     } else {
       startWatching();
     }
